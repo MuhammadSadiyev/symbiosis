@@ -27,7 +27,48 @@ const ROUTE_MAP = {
 // Initial Setup
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
+  setupAutoSlugifier();
 });
+
+// Toast Notification System
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  let icon = 'fa-info-circle';
+  if (type === 'success') icon = 'fa-check-circle';
+  if (type === 'error') icon = 'fa-exclamation-circle';
+  
+  toast.innerHTML = `<i class="fa-solid ${icon} toast-icon"></i> <span>${escapeHTML(message)}</span>`;
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add('hiding');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+function setupAutoSlugifier() {
+  const nameInput = document.getElementById('agent-reg-name');
+  const idInput = document.getElementById('agent-reg-id');
+  if(nameInput && idInput) {
+    nameInput.addEventListener('input', () => {
+      if (!idInput.dataset.manualEdit) {
+         let slug = nameInput.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+         if (slug) {
+           const prefix = currentUser && currentUser.name ? currentUser.name.toLowerCase().replace(/[^a-z0-9]+/g, '') : 'my-workspace';
+           idInput.value = `${prefix}/${slug}`;
+         } else {
+           idInput.value = '';
+         }
+      }
+    });
+    idInput.addEventListener('input', () => {
+      if(idInput.value.trim() !== '') idInput.dataset.manualEdit = 'true';
+    });
+  }
+}
 
 async function initApp() {
   checkAuth();
@@ -144,6 +185,11 @@ function toggleAuthTab(tab) {
 
 async function handleSignIn(e) {
   e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
+
   const email = document.getElementById('signin-email').value;
   const password = document.getElementById('signin-password').value;
   const errorDiv = document.getElementById('signin-error');
@@ -164,11 +210,19 @@ async function handleSignIn(e) {
     initApp();
   } catch (error) {
     errorDiv.textContent = error.message;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
   }
 }
 
 async function handleSignUp(e) {
   e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating Account...';
+
   const name = document.getElementById('signup-name').value;
   const email = document.getElementById('signup-email').value;
   const password = document.getElementById('signup-password').value;
@@ -190,6 +244,9 @@ async function handleSignUp(e) {
     initApp();
   } catch (error) {
     errorDiv.textContent = error.message;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
   }
 }
 
@@ -433,7 +490,12 @@ async function loadMyAgents() {
     myAgents = data.agents.filter(a => a.user_id === currentUser.id);
 
     if (myAgents.length === 0) {
-      listEl.innerHTML = `<p class="empty-state-text">You haven't registered any agents yet.</p>`;
+      listEl.innerHTML = `
+        <div style="text-align:center; padding: 20px;">
+          <p class="empty-state-text" style="margin-bottom: 12px;">You haven't registered any agents yet.</p>
+          <button class="btn btn-primary btn-small" onclick="showRegisterForm()">+ Register First Agent</button>
+        </div>
+      `;
       return;
     }
 
@@ -541,7 +603,7 @@ function toggleTokenVisibility() {
 function copyAgentToken() {
   const tokenInput = document.getElementById('agent-token-input');
   if (tokenInput.value.includes('•')) {
-    alert('Please reveal the token first to copy it.');
+    showToast('Please reveal the token first to copy it.', 'error');
     return;
   }
   
@@ -560,9 +622,17 @@ function showRegisterForm() {
   document.getElementById('workspace-details').classList.add('hidden');
   document.getElementById('workspace-register').classList.remove('hidden');
   
-  // Clear form
+  // Clear form and reset auto-slug
   document.getElementById('register-agent-form').reset();
+  const idInput = document.getElementById('agent-reg-id');
+  if(idInput) delete idInput.dataset.manualEdit;
   document.getElementById('agent-reg-error').textContent = '';
+
+  // Auto-focus the first input
+  setTimeout(() => {
+    const nameInput = document.getElementById('agent-reg-name');
+    if(nameInput) nameInput.focus();
+  }, 100);
 }
 
 function hideRegisterForm() {
@@ -576,6 +646,11 @@ function hideRegisterForm() {
 
 async function handleAgentRegistration(e) {
   e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
   const errorDiv = document.getElementById('agent-reg-error');
   errorDiv.textContent = '';
 
@@ -600,6 +675,8 @@ async function handleAgentRegistration(e) {
     if (schemaInStr) schema_in = JSON.parse(schemaInStr);
   } catch (err) {
     errorDiv.textContent = 'Invalid JSON in Input Schema.';
+    btn.disabled = false;
+    btn.innerHTML = originalText;
     return;
   }
 
@@ -607,6 +684,8 @@ async function handleAgentRegistration(e) {
     if (schemaOutStr) schema_out = JSON.parse(schemaOutStr);
   } catch (err) {
     errorDiv.textContent = 'Invalid JSON in Output Schema.';
+    btn.disabled = false;
+    btn.innerHTML = originalText;
     return;
   }
 
@@ -623,7 +702,9 @@ async function handleAgentRegistration(e) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to save agent.');
 
-    // Save success - refresh agent list
+    // Save success
+    showToast('Agent saved successfully!', 'success');
+    
     await loadMyAgents();
     await loadCatalog();
 
@@ -641,6 +722,10 @@ async function handleAgentRegistration(e) {
     }
   } catch (error) {
     errorDiv.textContent = error.message;
+    showToast(`Error: ${error.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
   }
 }
 
@@ -648,6 +733,11 @@ async function handleDeleteAgent(agentId) {
   if (!confirm(`Are you sure you want to permanently delete agent "${agentId}"? This action cannot be undone.`)) {
     return;
   }
+
+  const btn = document.getElementById('delete-agent-btn');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
 
   try {
     const res = await fetch(`${API_BASE}/api/agents/${agentId}`, {
@@ -662,10 +752,14 @@ async function handleDeleteAgent(agentId) {
     document.getElementById('workspace-details').classList.add('hidden');
     document.getElementById('workspace-empty').classList.remove('hidden');
 
+    showToast('Agent successfully deleted', 'success');
     await loadMyAgents();
     await loadCatalog();
   } catch (error) {
-    alert(`Failed to delete agent: ${error.message}`);
+    showToast(`Failed to delete agent: ${error.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
   }
 }
 
