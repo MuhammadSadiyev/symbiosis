@@ -955,6 +955,7 @@ async function openAgentModal(agentId) {
     renderModalSchema();
 
     // Show modal
+    modal.classList.remove('hidden');
     modal.classList.add('show');
   } catch (error) {
     alert(`Failed to fetch agent details: ${error.message}`);
@@ -979,7 +980,9 @@ function switchModalSchema(type) {
 }
 
 function closeAgentModal() {
-  document.getElementById('agent-modal').classList.remove('show');
+  const modal = document.getElementById('agent-modal');
+  modal.classList.remove('show');
+  modal.classList.add('hidden');
 }
 
 // Close modal if clicked outside
