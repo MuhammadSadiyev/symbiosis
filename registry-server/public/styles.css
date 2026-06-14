@@ -170,9 +170,12 @@ body {
   letter-spacing: -0.022em;
   color: var(--text-primary);
 }
-.logo-icon {
+.logo-svg {
   color: var(--text-primary);
-  font-size: 16px;
+  transition: var(--transition-smooth);
+}
+.logo:hover .logo-svg {
+  transform: rotate(72deg);
 }
 .domain-badge {
   font-size: 11px;
