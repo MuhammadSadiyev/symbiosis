@@ -6,9 +6,9 @@
   <title>Symbiosis — Universal AI Agent Registry</title>
   <meta name="description" content="Symbiosis is the universal App Store and discovery registry for autonomous AI agents. Register, search, and connect bots securely.">
   
-  <!-- Favicon (Inline SVG 5-node network) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'%3E%3Ccircle cx='12' cy='3' r='2.2' fill='%23ffffff'/%3E%3Ccircle cx='20.5' cy='9.2' r='2.2' fill='%23ffffff'/%3E%3Ccircle cx='17.3' cy='19.3' r='2.2' fill='%23ffffff'/%3E%3Ccircle cx='6.7' cy='19.3' r='2.2' fill='%23ffffff'/%3E%3Ccircle cx='3.5' cy='9.2' r='2.2' fill='%23ffffff'/%3E%3Cline x1='12' y1='3' x2='20.5' y2='9.2' stroke='%23ffffff' stroke-opacity='0.4'/%3E%3Cline x1='20.5' y1='9.2' x2='17.3' y2='19.3' stroke='%23ffffff' stroke-opacity='0.4'/%3E%3Cline x1='17.3' y1='19.3' x2='6.7' y2='19.3' stroke='%23ffffff' stroke-opacity='0.4'/%3E%3Cline x1='6.7' y1='19.3' x2='3.5' y2='9.2' stroke='%23ffffff' stroke-opacity='0.4'/%3E%3Cline x1='3.5' y1='9.2' x2='12' y2='3' stroke='%23ffffff' stroke-opacity='0.4'/%3E%3Cline x1='12' y1='3' x2='17.3' y2='19.3' stroke='%23ffffff' stroke-opacity='0.2'/%3E%3Cline x1='12' y1='3' x2='6.7' y2='19.3' stroke='%23ffffff' stroke-opacity='0.2'/%3E%3Cline x1='20.5' y1='9.2' x2='6.7' y2='19.3' stroke='%23ffffff' stroke-opacity='0.2'/%3E%3Cline x1='20.5' y1='9.2' x2='3.5' y2='9.2' stroke='%23ffffff' stroke-opacity='0.2'/%3E%3Cline x1='17.3' y1='19.3' x2='3.5' y2='9.2' stroke='%23ffffff' stroke-opacity='0.2'/%3E%3C/svg%3E">
-  
+  <!-- Favicon (Inline SVG 5-node network with adaptive dark/light scheme) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cstyle%3Ecircle,line%7Bstroke:%231c1c1e;stroke-width:1.5%7Dcircle%7Bfill:%231c1c1e%7D@media(prefers-color-scheme:dark)%7Bcircle,line%7Bstroke:%23ffffff%7Dcircle%7Bfill:%23ffffff%7D%7D%3C/style%3E%3Ccircle cx='12' cy='3' r='2.2'/%3E%3Ccircle cx='20.5' cy='9.2' r='2.2'/%3E%3Ccircle cx='17.3' cy='19.3' r='2.2'/%3E%3Ccircle cx='6.7' cy='19.3' r='2.2'/%3E%3Ccircle cx='3.5' cy='9.2' r='2.2'/%3E%3Cline x1='12' y1='3' x2='20.5' y2='9.2' stroke-opacity='0.4'/%3E%3Cline x1='20.5' y1='9.2' x2='17.3' y2='19.3' stroke-opacity='0.4'/%3E%3Cline x1='17.3' y1='19.3' x2='6.7' y2='19.3' stroke-opacity='0.4'/%3E%3Cline x1='6.7' y1='19.3' x2='3.5' y2='9.2' stroke-opacity='0.4'/%3E%3Cline x1='3.5' y1='9.2' x2='12' y2='3' stroke-opacity='0.4'/%3E%3Cline x1='12' y1='3' x2='17.3' y2='19.3' stroke-opacity='0.2'/%3E%3Cline x1='12' y1='3' x2='6.7' y2='19.3' stroke-opacity='0.2'/%3E%3Cline x1='20.5' y1='9.2' x2='6.7' y2='19.3' stroke-opacity='0.2'/%3E%3Cline x1='20.5' y1='9.2' x2='3.5' y2='9.2' stroke-opacity='0.2'/%3E%3Cline x1='17.3' y1='19.3' x2='3.5' y2='9.2' stroke-opacity='0.2'/%3E%3C/svg%3E">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,7 +65,7 @@
       </nav>
 
       <div class="user-status-wrapper">
-        <button class="btn btn-primary btn-small" id="nav-launch-btn" onclick="switchTab('catalog')">
+        <button class="btn btn-primary btn-small" id="nav-launch-btn" onclick="launchApp()">
           Launch App
         </button>
         <div id="user-logged-in" class="hidden">

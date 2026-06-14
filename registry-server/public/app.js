@@ -637,6 +637,15 @@ function switchTab(tabName) {
   }
 }
 
+// Handles the smart redirection when Launch App is clicked
+function launchApp() {
+  if (token) {
+    switchTab('catalog'); // Take to Agent Market dashboard
+  } else {
+    switchTab('console'); // Redirect to Sign In / Sign Up portal
+  }
+}
+
 // ---------------- CATALOG DETAILED MODAL ----------------
 
 async function openAgentModal(agentId) {
