@@ -376,6 +376,13 @@ function renderLogsConsole(logs) {
       line.appendChild(payloadPre);
     }
 
+    // Check if line matches current active search query
+    const filterInput = document.getElementById('log-console-search');
+    const query = filterInput ? filterInput.value.toLowerCase().trim() : '';
+    if (query && !line.textContent.toLowerCase().includes(query)) {
+      line.classList.add('hidden');
+    }
+
     consoleEl.appendChild(line);
   });
 
@@ -464,6 +471,13 @@ function selectAgent(agentId) {
   document.getElementById('view-agent-name').textContent = selectedAgent.name;
   document.getElementById('view-agent-id').textContent = selectedAgent.id;
   document.getElementById('view-agent-endpoint').textContent = selectedAgent.endpoint;
+
+  // Hide connection status badge initially
+  const statusBadge = document.getElementById('view-agent-connection-status');
+  if (statusBadge) {
+    statusBadge.classList.add('hidden');
+    statusBadge.textContent = '';
+  }
 
   // Mask agent token initially
   const tokenInput = document.getElementById('agent-token-input');
@@ -799,3 +813,89 @@ function escapeHTML(str) {
     }[tag] || tag)
   );
 }
+
+async function pingAgent() {
+  if (!selectedAgent) return;
+  const btn = document.getElementById('ping-agent-btn');
+  const statusBadge = document.getElementById('view-agent-connection-status');
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Pinging...';
+  
+  statusBadge.classList.remove('hidden');
+  statusBadge.className = 'agent-status-badge'; // reset styles
+  statusBadge.textContent = 'Testing...';
+  statusBadge.style.color = 'var(--text-secondary)';
+  statusBadge.style.background = 'rgba(255, 255, 255, 0.05)';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/agents/${selectedAgent.id}/ping`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Ping failed');
+
+    if (data.status === 'online') {
+      statusBadge.textContent = `Online (${data.latency_ms}ms)`;
+      statusBadge.style.color = 'var(--accent-emerald)';
+      statusBadge.style.background = 'rgba(48, 209, 88, 0.1)';
+    } else {
+      statusBadge.textContent = `Offline`;
+      statusBadge.style.color = 'var(--accent-red)';
+      statusBadge.style.background = 'rgba(255, 69, 58, 0.1)';
+    }
+  } catch (error) {
+    statusBadge.textContent = `Error`;
+    statusBadge.style.color = 'var(--accent-red)';
+    statusBadge.style.background = 'rgba(255, 69, 58, 0.1)';
+    console.error('Ping check failed:', error);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Test Connection';
+  }
+}
+
+function validateSchemaInput(type) {
+  const textarea = document.getElementById(`agent-reg-schema-${type}`);
+  const validationLabel = document.getElementById(`schema-${type}-validation`);
+  if (!textarea || !validationLabel) return;
+  const val = textarea.value.trim();
+
+  if (!val) {
+    validationLabel.textContent = 'Empty Schema (will default to {})';
+    validationLabel.className = 'field-help json-validation-msg text-emerald';
+    return;
+  }
+
+  try {
+    JSON.parse(val);
+    validationLabel.textContent = 'Valid JSON Schema';
+    validationLabel.className = 'field-help json-validation-msg text-emerald';
+  } catch (err) {
+    validationLabel.textContent = `Invalid JSON: ${err.message}`;
+    validationLabel.className = 'field-help json-validation-msg text-red';
+  }
+}
+
+function handleLogFilter() {
+  const query = document.getElementById('log-console-search').value.toLowerCase().trim();
+  const consoleEl = document.getElementById('logs-console');
+  if (!consoleEl) return;
+  const lines = consoleEl.getElementsByClassName('terminal-line');
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const text = line.textContent.toLowerCase();
+    if (text.includes(query)) {
+      line.classList.remove('hidden');
+    } else {
+      line.classList.add('hidden');
+    }
+  }
+}
+

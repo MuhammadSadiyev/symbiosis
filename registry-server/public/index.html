@@ -291,7 +291,10 @@
             <span class="dot"></span>
             <span class="dot"></span>
           </div>
-          <div class="terminal-title">telemetry-feed@sbio.cloud</div>
+          <div class="terminal-search-wrapper">
+            <i class="fa-solid fa-filter terminal-search-icon"></i>
+            <input type="text" id="log-console-search" placeholder="Filter logs..." oninput="handleLogFilter()">
+          </div>
           <div class="terminal-status" id="live-indicator"><span class="pulse-dot"></span> LIVE</div>
         </div>
         <div class="terminal-body" id="logs-console">
@@ -336,11 +339,19 @@
             <div class="agent-details-header">
               <div>
                 <h2 id="view-agent-name">Agent Name</h2>
-                <span class="id-badge" id="view-agent-id">namespace/agent</span>
+                <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px;">
+                  <span class="id-badge" id="view-agent-id">namespace/agent</span>
+                  <span id="view-agent-connection-status" class="agent-status-badge hidden"></span>
+                </div>
               </div>
-              <button class="btn btn-danger btn-small" id="delete-agent-btn">
-                Delete
-              </button>
+              <div class="agent-actions-row">
+                <button class="btn btn-secondary btn-small" id="ping-agent-btn" onclick="pingAgent()">
+                  Test Connection
+                </button>
+                <button class="btn btn-danger btn-small" id="delete-agent-btn">
+                  Delete
+                </button>
+              </div>
             </div>
 
             <!-- Token Box -->
@@ -434,11 +445,13 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="agent-reg-schema-in">Input JSON Schema (A2A Interface)</label>
-                  <textarea id="agent-reg-schema-in" class="code-textarea" rows="4" placeholder='{ "type": "object", "properties": { ... } }'></textarea>
+                  <textarea id="agent-reg-schema-in" class="code-textarea" rows="5" onkeyup="validateSchemaInput('in')">{&#10;  "type": "object",&#10;  "properties": {&#10;    "query": { "type": "string" }&#10;  },&#10;  "required": ["query"]&#10;}</textarea>
+                  <span class="field-help json-validation-msg text-emerald" id="schema-in-validation">Valid JSON Schema</span>
                 </div>
                 <div class="form-group">
                   <label for="agent-reg-schema-out">Output JSON Schema (A2A Interface)</label>
-                  <textarea id="agent-reg-schema-out" class="code-textarea" rows="4" placeholder='{ "type": "object", "properties": { ... } }'></textarea>
+                  <textarea id="agent-reg-schema-out" class="code-textarea" rows="5" onkeyup="validateSchemaInput('out')">{&#10;  "type": "object",&#10;  "properties": {&#10;    "response": { "type": "string" }&#10;  }&#10;}</textarea>
+                  <span class="field-help json-validation-msg text-emerald" id="schema-out-validation">Valid JSON Schema</span>
                 </div>
               </div>
 

@@ -212,10 +212,63 @@ const deleteAgent = async (req, res) => {
   }
 };
 
+/**
+ * Ping an agent's endpoint to test availability and measure latency
+ */
+const pingAgent = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const agentRes = await db.query(
+      'SELECT endpoint FROM agents WHERE id = $1',
+      [id]
+    );
+
+    if (agentRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Agent not found.' });
+    }
+
+    const { endpoint } = agentRes.rows[0];
+
+    // Setup 3 second timeout for fetch
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    const startTime = Date.now();
+
+    try {
+      const pingRes = await fetch(endpoint, {
+        method: 'GET',
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+      const latency = Date.now() - startTime;
+
+      return res.json({
+        status: pingRes.ok ? 'online' : 'offline',
+        latency_ms: latency,
+        statusCode: pingRes.status
+      });
+    } catch (fetchErr) {
+      clearTimeout(timeout);
+      const latency = Date.now() - startTime;
+      return res.json({
+        status: 'offline',
+        latency_ms: latency,
+        error: fetchErr.message
+      });
+    }
+  } catch (error) {
+    console.error('Ping agent error:', error);
+    res.status(500).json({ error: 'Internal server error pinging agent.' });
+  }
+};
+
 module.exports = {
   registerAgent,
   listAgents,
   getAgentById,
   deleteAgent,
-  hashApiKey
+  hashApiKey,
+  pingAgent
 };
+

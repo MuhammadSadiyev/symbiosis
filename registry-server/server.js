@@ -39,6 +39,7 @@ app.get('/api/agents', apiLimiter, agentsController.listAgents);
 app.get('/api/agents/:id', apiLimiter, agentsController.getAgentById);
 app.post('/api/agents', apiLimiter, authenticateUser, agentsController.registerAgent);
 app.delete('/api/agents/:id', apiLimiter, authenticateUser, agentsController.deleteAgent);
+app.post('/api/agents/:id/ping', apiLimiter, agentsController.pingAgent);
 
 // Telemetry & Logs
 app.post('/api/logs', logLimiter, logsController.createLog);
