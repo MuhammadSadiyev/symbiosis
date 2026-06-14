@@ -47,16 +47,16 @@
       </div>
       
       <nav class="nav-links">
-        <button class="nav-btn" id="nav-catalog-btn" onclick="switchTab('catalog')">
+        <button class="nav-btn public-nav" id="nav-catalog-btn" onclick="switchTab('catalog')">
           Agent Market
         </button>
-        <button class="nav-btn" id="nav-docs-btn" onclick="switchTab('docs')">
+        <button class="nav-btn public-nav" id="nav-docs-btn" onclick="switchTab('docs')">
           Docs
         </button>
-        <button class="nav-btn hidden" id="nav-logs-btn" onclick="switchTab('logs')">
+        <button class="nav-btn dashboard-nav hidden" id="nav-logs-btn" onclick="switchTab('logs')">
           Live Telemetry
         </button>
-        <button class="nav-btn hidden" id="nav-console-btn" onclick="switchTab('console')">
+        <button class="nav-btn dashboard-nav hidden" id="nav-console-btn" onclick="switchTab('console')">
           Developer Space
         </button>
       </nav>
@@ -74,6 +74,13 @@
               <span id="header-username" class="dropdown-username">Developer</span>
               <span id="header-email" class="dropdown-email">user@sbio.cloud</span>
             </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" onclick="switchTab('catalog')">
+              <i class="fa-solid fa-store"></i> Agent Market
+            </button>
+            <button class="dropdown-item" onclick="switchTab('docs')">
+              <i class="fa-solid fa-book"></i> Documentation
+            </button>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item danger" onclick="logout()">
               <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out

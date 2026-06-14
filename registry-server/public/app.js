@@ -839,27 +839,45 @@ function switchTab(tabName, updateHistory = true) {
     activeBtn.classList.add('active');
   }
 
-  // Global Navigation Logic
+  // Contextual Navigation Logic
   const launchBtn = document.getElementById('nav-launch-btn');
-  const navLogsBtn = document.getElementById('nav-logs-btn');
-  const navConsoleBtn = document.getElementById('nav-console-btn');
   const userLoggedIn = document.getElementById('user-logged-in');
+  const publicNavs = document.querySelectorAll('.public-nav');
+  const dashboardNavs = document.querySelectorAll('.dashboard-nav');
+  
+  const isDashboard = (tabName === 'logs' || tabName === 'console');
 
-  if (token) {
-    if (launchBtn) launchBtn.classList.add('hidden');
-    if (userLoggedIn) userLoggedIn.classList.remove('hidden');
-    if (navLogsBtn) navLogsBtn.classList.remove('hidden');
-    if (navConsoleBtn) navConsoleBtn.classList.remove('hidden');
+  // Toggle Nav Links based on Context
+  if (isDashboard) {
+    publicNavs.forEach(el => el.classList.add('hidden'));
+    dashboardNavs.forEach(el => el.classList.remove('hidden'));
   } else {
-    // Hide Launch App on the Login page itself to reduce clutter
-    if (tabName === 'login') {
-      if (launchBtn) launchBtn.classList.add('hidden');
-    } else {
-      if (launchBtn) launchBtn.classList.remove('hidden');
+    publicNavs.forEach(el => el.classList.remove('hidden'));
+    dashboardNavs.forEach(el => el.classList.add('hidden'));
+  }
+
+  // Handle Session States for the top right actions
+  if (token) {
+    if (userLoggedIn) userLoggedIn.classList.remove('hidden');
+    if (launchBtn) {
+      launchBtn.textContent = 'Go to Workspace';
+      // Hide the launch button completely if we are already inside the dashboard
+      if (isDashboard) {
+        launchBtn.classList.add('hidden');
+      } else {
+        launchBtn.classList.remove('hidden');
+      }
     }
+  } else {
     if (userLoggedIn) userLoggedIn.classList.add('hidden');
-    if (navLogsBtn) navLogsBtn.classList.add('hidden');
-    if (navConsoleBtn) navConsoleBtn.classList.add('hidden');
+    if (launchBtn) {
+      launchBtn.textContent = 'Launch App';
+      if (tabName === 'login') {
+        launchBtn.classList.add('hidden');
+      } else {
+        launchBtn.classList.remove('hidden');
+      }
+    }
   }
   
   if (tabName === 'catalog') {
