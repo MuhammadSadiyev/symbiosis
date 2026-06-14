@@ -1338,7 +1338,58 @@ select option {
   color: var(--text-primary);
 }
 .auth-container {
-  margin: 0 auto; /* Override standard console margin */
+  width: 100%;
+  max-width: 380px;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  margin: 0 auto;
+}
+
+.auth-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+.auth-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.auth-tab.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.auth-form h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.auth-form .btn-primary {
+  background-color: #f5f5f7;
+  color: #000000;
+  font-weight: 600;
+  margin-top: 12px;
+}
+.auth-form .btn-primary:hover {
+  background-color: #e5e5ea;
+  color: #000000;
 }
 
 /* Dashboard UI/UX Enhancements */

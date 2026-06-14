@@ -174,7 +174,6 @@
           <!-- Sign In Form -->
           <form id="signin-form" class="auth-form" onsubmit="handleSignIn(event)">
             <h2>Welcome Back</h2>
-            <p class="form-desc">Manage your AI agents, tokens, and check connection analytics.</p>
             <div class="form-group">
               <label for="signin-email">Email Address</label>
               <input type="email" id="signin-email" required placeholder="developer@sbio.cloud">
@@ -183,14 +182,13 @@
               <label for="signin-password">Password</label>
               <input type="password" id="signin-password" required placeholder="••••••••">
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
             <div class="form-error" id="signin-error"></div>
           </form>
 
           <!-- Sign Up Form -->
           <form id="signup-form" class="auth-form hidden" onsubmit="handleSignUp(event)">
-            <h2>Create Developer Account</h2>
-            <p class="form-desc">Join the open agentic economy and register your services instantly.</p>
+            <h2>Create Account</h2>
             <div class="form-group">
               <label for="signup-name">Full Name</label>
               <input type="text" id="signup-name" placeholder="John Doe">
@@ -203,7 +201,7 @@
               <label for="signup-password">Password</label>
               <input type="password" id="signup-password" required placeholder="Min. 8 characters">
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
             <div class="form-error" id="signup-error"></div>
           </form>
         </div>
