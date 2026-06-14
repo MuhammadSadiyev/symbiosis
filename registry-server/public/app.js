@@ -793,7 +793,7 @@ async function handleDeleteAgent(agentId) {
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
 
   try {
-    const res = await fetch(`${API_BASE}/api/agents/${agentId}`, {
+    const res = await fetch(`${API_BASE}/api/agents/${encodeURIComponent(agentId)}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });
@@ -929,7 +929,7 @@ async function openAgentModal(agentId) {
   const modal = document.getElementById('agent-modal');
   
   try {
-    const res = await fetch(`${API_BASE}/api/agents/${agentId}`);
+    const res = await fetch(`${API_BASE}/api/agents/${encodeURIComponent(agentId)}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
 
@@ -1020,7 +1020,7 @@ async function pingAgent() {
   statusBadge.style.background = 'rgba(255, 255, 255, 0.05)';
 
   try {
-    const res = await fetch(`${API_BASE}/api/agents/${selectedAgent.id}/ping`, {
+    const res = await fetch(`${API_BASE}/api/agents/${encodeURIComponent(selectedAgent.id)}/ping`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
