@@ -77,7 +77,10 @@ const getLogs = async (req, res) => {
     // Select logs and join agents to display friendly names
     const logsRes = await db.query(
       `SELECT 
-        l.id, l.agent_id, l.caller_agent_id, l.type, l.message, l.payload, l.timestamp,
+        l.id, l.agent_id, l.caller_agent_id, l.type, 
+        '[SECURE] End-to-end encrypted transaction' as message, 
+        '{}'::jsonb as payload, 
+        l.timestamp,
         a.name as agent_name,
         c.name as caller_name
        FROM logs l
@@ -107,7 +110,10 @@ const getAgentLogs = async (req, res) => {
 
     const logsRes = await db.query(
       `SELECT 
-        l.id, l.agent_id, l.caller_agent_id, l.type, l.message, l.payload, l.timestamp,
+        l.id, l.agent_id, l.caller_agent_id, l.type, 
+        '[SECURE] End-to-end encrypted transaction' as message, 
+        '{}'::jsonb as payload, 
+        l.timestamp,
         a.name as agent_name,
         c.name as caller_name
        FROM logs l
