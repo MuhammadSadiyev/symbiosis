@@ -842,21 +842,22 @@ function switchTab(tabName, updateHistory = true) {
   // Toggle 'Launch App' and main navigation links based on active tab and login status
   const launchBtn = document.getElementById('nav-launch-btn');
   const navLinks = document.querySelector('.nav-links');
+  const publicLinks = document.querySelectorAll('.public-link');
   
-  if (tabName === 'landing' || tabName === 'login') {
-    if (launchBtn && !token) launchBtn.classList.remove('hidden');
-    if (launchBtn && token) launchBtn.classList.add('hidden');
-    if (navLinks) navLinks.classList.add('hidden');
-    
-    // Hide Launch App on the Login page itself to reduce clutter
-    if (tabName === 'login' && launchBtn) {
-      launchBtn.classList.add('hidden');
-    }
-  } else {
-    // Inside App tabs: show Launch App button only if user is a guest (not logged in)
+  if (tabName === 'landing' || tabName === 'docs') {
     if (launchBtn && !token) launchBtn.classList.remove('hidden');
     if (launchBtn && token) launchBtn.classList.add('hidden');
     if (navLinks) navLinks.classList.remove('hidden');
+    publicLinks.forEach(el => el.classList.remove('hidden'));
+  } else if (tabName === 'login') {
+    if (launchBtn) launchBtn.classList.add('hidden');
+    if (navLinks) navLinks.classList.add('hidden');
+  } else {
+    // Inside Dashboard (catalog, logs, console)
+    if (launchBtn && !token) launchBtn.classList.remove('hidden');
+    if (launchBtn && token) launchBtn.classList.add('hidden');
+    if (navLinks) navLinks.classList.remove('hidden');
+    publicLinks.forEach(el => el.classList.add('hidden')); // Hide Docs and Market in dashboard
   }
   
   if (tabName === 'catalog') {
@@ -867,6 +868,25 @@ function switchTab(tabName, updateHistory = true) {
   if (updateHistory) {
     const path = Object.keys(ROUTE_MAP).find(key => ROUTE_MAP[key] === tabName) || '/';
     window.history.pushState(null, '', path);
+  }
+}
+
+function switchDocs(sectionId) {
+  // Update nav active state
+  document.querySelectorAll('.docs-nav li').forEach(el => el.classList.remove('active'));
+  const clickedItem = event.target;
+  if (clickedItem) clickedItem.classList.add('active');
+
+  // Update content active state
+  document.querySelectorAll('.docs-section').forEach(el => {
+    el.classList.remove('active');
+    el.classList.add('hidden');
+  });
+  
+  const targetSection = document.getElementById(`docs-${sectionId}`);
+  if (targetSection) {
+    targetSection.classList.remove('hidden');
+    targetSection.classList.add('active');
   }
 }
 

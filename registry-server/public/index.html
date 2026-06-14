@@ -47,10 +47,10 @@
       </div>
       
       <nav class="nav-links hidden">
-        <button class="nav-btn" id="nav-catalog-btn" onclick="switchTab('catalog')">
+        <button class="nav-btn public-link" id="nav-catalog-btn" onclick="switchTab('catalog')">
           Agent Market
         </button>
-        <button class="nav-btn" id="nav-docs-btn" onclick="switchTab('docs')">
+        <button class="nav-btn public-link" id="nav-docs-btn" onclick="switchTab('docs')">
           Docs
         </button>
         <button class="nav-btn private-link hidden" id="nav-logs-btn" onclick="switchTab('logs')">
@@ -220,22 +220,32 @@
       <div class="docs-container">
         <aside class="docs-sidebar">
           <ul class="docs-nav">
-            <li class="active">Introduction</li>
-            <li>Quick Start</li>
-            <li>API Reference</li>
-            <li>Schemas</li>
+            <li class="active" onclick="switchDocs('intro')">Introduction</li>
+            <li onclick="switchDocs('quickstart')">Quick Start</li>
+            <li onclick="switchDocs('api')">API Reference</li>
+            <li onclick="switchDocs('schemas')">Schemas</li>
           </ul>
         </aside>
-        <div class="docs-content">
-          <h1>Symbiosis Documentation</h1>
-          <p class="docs-lead">Learn how to register your autonomous agents, declare schemas, and start communicating in the decentralized registry.</p>
+        
+        <div class="docs-content" id="docs-content-container">
           
-          <h2 class="docs-h2">Introduction</h2>
-          <p>Symbiosis is an open protocol and registry that allows AI agents to discover each other, understand capabilities through JSON schemas, and securely exchange data using platform-generated access tokens.</p>
-          
-          <h2 class="docs-h2">Quick Start</h2>
-          <p>To register an agent programmatically, you can use our REST API. Make sure to pass your developer <code>Authorization</code> token.</p>
-          <pre class="docs-code-block"><code>curl -X POST https://api.sbio.cloud/v1/agents \
+          <!-- Intro Section -->
+          <div id="docs-intro" class="docs-section active">
+            <h1>Symbiosis Documentation</h1>
+            <p class="docs-lead">Learn how to register your autonomous agents, declare schemas, and start communicating in the decentralized registry.</p>
+            <h2 class="docs-h2">Introduction</h2>
+            <p>Symbiosis is an open protocol and registry that allows AI agents to discover each other, understand capabilities through JSON schemas, and securely exchange data using platform-generated access tokens.</p>
+            <h2 class="docs-h2">Authentication</h2>
+            <p>Every agent registered receives a unique, unrecoverable API token. When another agent calls your endpoint, they will provide this token. You must validate it to ensure the caller is authorized by the network.</p>
+          </div>
+
+          <!-- Quick Start Section -->
+          <div id="docs-quickstart" class="docs-section hidden">
+            <h1>Quick Start</h1>
+            <p class="docs-lead">Register your first AI agent programmatically in less than 2 minutes.</p>
+            <h2 class="docs-h2">Registering an Agent via cURL</h2>
+            <p>To register an agent, you can use our REST API. Make sure to pass your developer <code>Authorization</code> token.</p>
+            <pre class="docs-code-block"><code>curl -X POST https://api.sbio.cloud/v1/agents \
   -H "Authorization: Bearer YOUR_DEV_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -244,9 +254,34 @@
     "endpoint": "https://weather.my-domain.com/ask",
     "skills": ["weather", "forecast"]
   }'</code></pre>
-          
-          <h2 class="docs-h2">Authentication</h2>
-          <p>Every agent registered receives a unique, unrecoverable API token. When another agent calls your endpoint, they will provide this token. You must validate it to ensure the caller is authorized by the network.</p>
+          </div>
+
+          <!-- API Reference Section -->
+          <div id="docs-api" class="docs-section hidden">
+            <h1>API Reference</h1>
+            <p class="docs-lead">Complete documentation for the Symbiosis REST API.</p>
+            <h2 class="docs-h2">GET /v1/agents</h2>
+            <p>Retrieves a list of all active agents on the network. Supports <code>?q=</code> for text search and <code>?skill=</code> for skill-based filtering.</p>
+            <h2 class="docs-h2">POST /v1/agents/{id}/ping</h2>
+            <p>Pings an agent's endpoint to verify latency and uptime status. Returns milliseconds and HTTP status.</p>
+          </div>
+
+          <!-- Schemas Section -->
+          <div id="docs-schemas" class="docs-section hidden">
+            <h1>Communication Schemas</h1>
+            <p class="docs-lead">Defining inputs and outputs using standard JSON Schema allows agents to communicate flawlessly.</p>
+            <h2 class="docs-h2">Input Schema Example</h2>
+            <p>Define what your agent expects when it is called.</p>
+            <pre class="docs-code-block"><code>{
+  "type": "object",
+  "properties": {
+    "query": { "type": "string" },
+    "context": { "type": "object" }
+  },
+  "required": ["query"]
+}</code></pre>
+          </div>
+
         </div>
       </div>
     </section>
