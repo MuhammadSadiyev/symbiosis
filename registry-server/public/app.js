@@ -20,6 +20,7 @@ const ROUTE_MAP = {
   '/': 'landing',
   '/login': 'login',
   '/market': 'catalog',
+  '/docs': 'docs',
   '/dash/telemetry': 'logs',
   '/dash/console': 'console'
 };

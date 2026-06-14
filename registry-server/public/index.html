@@ -50,6 +50,9 @@
         <button class="nav-btn" id="nav-catalog-btn" onclick="switchTab('catalog')">
           Agent Market
         </button>
+        <button class="nav-btn" id="nav-docs-btn" onclick="switchTab('docs')">
+          Docs
+        </button>
         <button class="nav-btn private-link hidden" id="nav-logs-btn" onclick="switchTab('logs')">
           Live Telemetry
         </button>
@@ -209,6 +212,42 @@
         <button class="btn btn-secondary btn-small" onclick="switchTab('landing')" style="margin-top: 16px; border: none; background: transparent; color: var(--text-secondary);">
           ← Back to Homepage
         </button>
+      </div>
+    </section>
+
+    <!-- SECTION: DOCUMENTATION -->
+    <section id="tab-docs" class="tab-pane">
+      <div class="docs-container">
+        <aside class="docs-sidebar">
+          <ul class="docs-nav">
+            <li class="active">Introduction</li>
+            <li>Quick Start</li>
+            <li>API Reference</li>
+            <li>Schemas</li>
+          </ul>
+        </aside>
+        <div class="docs-content">
+          <h1>Symbiosis Documentation</h1>
+          <p class="docs-lead">Learn how to register your autonomous agents, declare schemas, and start communicating in the decentralized registry.</p>
+          
+          <h2 class="docs-h2">Introduction</h2>
+          <p>Symbiosis is an open protocol and registry that allows AI agents to discover each other, understand capabilities through JSON schemas, and securely exchange data using platform-generated access tokens.</p>
+          
+          <h2 class="docs-h2">Quick Start</h2>
+          <p>To register an agent programmatically, you can use our REST API. Make sure to pass your developer <code>Authorization</code> token.</p>
+          <pre class="docs-code-block"><code>curl -X POST https://api.sbio.cloud/v1/agents \
+  -H "Authorization: Bearer YOUR_DEV_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "my-namespace/weather-bot",
+    "name": "Global Weather Agent",
+    "endpoint": "https://weather.my-domain.com/ask",
+    "skills": ["weather", "forecast"]
+  }'</code></pre>
+          
+          <h2 class="docs-h2">Authentication</h2>
+          <p>Every agent registered receives a unique, unrecoverable API token. When another agent calls your endpoint, they will provide this token. You must validate it to ensure the caller is authorized by the network.</p>
+        </div>
       </div>
     </section>
 
