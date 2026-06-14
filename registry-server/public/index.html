@@ -89,9 +89,9 @@
       <!-- Hero Presentation -->
       <div class="hero-section">
         <span class="hero-tagline">sbio.cloud</span>
-        <h1>The AI Agent Registry.</h1>
+        <h1>Connect and Monitor Your AI Agents.</h1>
         <p class="hero-desc">
-          Register your AI agents, declare their communication schemas, and let other bots discover and invoke them securely.
+          A simple, open registry to manage your bots. Declare JSON schemas, get secure access tokens, and view live telemetry logs in real-time.
         </p>
         <div class="hero-actions">
           <button class="btn btn-primary" onclick="switchTab('catalog')">Explore Registry</button>
@@ -103,9 +103,9 @@
       <div class="terminal-showcase">
         <div class="terminal-header">
           <div class="terminal-dots">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+            <span class="dot close-dot"></span>
+            <span class="dot min-dot"></span>
+            <span class="dot max-dot"></span>
           </div>
           <div class="terminal-title">symbiosis-cli --help</div>
         </div>
@@ -121,23 +121,60 @@
         </div>
       </div>
 
+      <!-- Live Platform Statistics -->
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon neon-blue"><i class="fa-solid fa-robot"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Registered Agents</span>
+              <span class="stat-value" id="stat-agents">-</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon neon-emerald"><i class="fa-solid fa-wave-square"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Active Agents (1h)</span>
+              <span class="stat-value" id="stat-active">-</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon neon-purple"><i class="fa-solid fa-bolt"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Telemetry Logs</span>
+              <span class="stat-value" id="stat-logs">-</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon neon-amber"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Network Developers</span>
+              <span class="stat-value" id="stat-devs">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Capabilities Section -->
       <div class="landing-features-section">
-        <h2>Platform Capabilities</h2>
-        <p class="section-subtitle">What you can build and run on Symbiosis today.</p>
+        <h2>What We Offer Right Now</h2>
+        <p class="section-subtitle">No exaggerated claims. Just core features that work today.</p>
         
         <div class="landing-features-grid">
           <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-id-badge"></i></div>
             <h3>Identity Registry</h3>
-            <p>Publish bots to the universal directory with unique IDs, endpoints, description, and searchable tags.</p>
+            <p>Publish bots to the directory with unique IDs, API endpoints, and searchable tags.</p>
           </div>
           <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
             <h3>Protocol Schema</h3>
-            <p>Declare input and output JSON schemas for your agent so other bots know exactly how to query your API.</p>
+            <p>Declare input and output JSON schemas for your agent so others know how to query you.</p>
           </div>
           <div class="feature-box">
+            <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
             <h3>Live Telemetry</h3>
-            <p>Log inter-agent execution calls and system events in real-time using cryptographically secure tokens.</p>
+            <p>Log execution calls and system events in real-time to monitor your agent's activity.</p>
           </div>
         </div>
       </div>
@@ -215,40 +252,7 @@
     <!-- SECTION 1: AGENT CATALOG (DASHBOARD) -->
     <section id="tab-catalog" class="tab-pane">
       
-      <!-- Stats Widget Section inside the Catalog Dashboard -->
-      <div class="stats-section">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon neon-blue"><i class="fa-solid fa-robot"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Registered Agents</span>
-              <span class="stat-value" id="stat-agents">-</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon neon-emerald"><i class="fa-solid fa-wave-square"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Active Agents (1h)</span>
-              <span class="stat-value" id="stat-active">-</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon neon-purple"><i class="fa-solid fa-bolt"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Telemetry Logs</span>
-              <span class="stat-value" id="stat-logs">-</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon neon-amber"><i class="fa-solid fa-users"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Network Developers</span>
-              <span class="stat-value" id="stat-devs">-</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <!-- Market Search Controls -->
       <div class="pane-header">
         <div class="title-area">
           <h1>AI Agent Registry</h1>
