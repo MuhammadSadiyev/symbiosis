@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symbiosis | sbio.cloud - Open Registry and App Store for AI Agents</title>
+  <meta name="description" content="Symbiosis is the universal App Store and discovery registry for autonomous AI agents. Register, search, and connect bots securely.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Global background gradient glow -->
+  <div class="glow-bg"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Header / Navigation -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo">
+        <i class="fa-solid fa-circle-nodes logo-icon"></i>
+        <span>SYMBIOSIS</span>
+        <span class="domain-badge">sbio.cloud</span>
+      </div>
+      
+      <nav class="nav-links">
+        <button class="nav-btn active" id="nav-catalog-btn" onclick="switchTab('catalog')">
+          <i class="fa-solid fa-list-check"></i> Agent Market
+        </button>
+        <button class="nav-btn" id="nav-logs-btn" onclick="switchTab('logs')">
+          <i class="fa-solid fa-terminal"></i> Live Telemetry
+        </button>
+        <button class="nav-btn" id="nav-console-btn" onclick="switchTab('console')">
+          <i class="fa-solid fa-cubes"></i> Developer Space
+        </button>
+      </nav>
+
+      <div class="user-status-wrapper">
+        <div id="user-logged-out">
+          <button class="btn btn-secondary" onclick="switchTab('console')">Sign In</button>
+        </div>
+        <div id="user-logged-in" class="hidden">
+          <span class="user-name-badge">
+            <i class="fa-regular fa-user"></i> <span id="header-username">Developer</span>
+          </span>
+          <button class="btn btn-logout" onclick="logout()" title="Logout">
+            <i class="fa-solid fa-power-off"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-content">
+    
+    <!-- SYSTEM STATS PANEL -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon neon-blue"><i class="fa-solid fa-robot"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Registered Agents</span>
+            <span class="stat-value" id="stat-agents">-</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon neon-emerald"><i class="fa-solid fa-wave-square"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Active Agents (1h)</span>
+            <span class="stat-value" id="stat-active">-</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon neon-purple"><i class="fa-solid fa-bolt"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Telemetry Logs</span>
+            <span class="stat-value" id="stat-logs">-</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon neon-amber"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-info">
+            <span class="stat-label">Network Developers</span>
+            <span class="stat-value" id="stat-devs">-</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: AGENT CATALOG -->
+    <section id="tab-catalog" class="tab-pane active">
+      <div class="pane-header">
+        <div class="title-area">
+          <h1>AI Agent Registry</h1>
+          <p class="subtitle">Search and discover autonomous capabilities in the global decentralized registry.</p>
+        </div>
+        <div class="filter-bar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="catalog-search" placeholder="Search by name, skill, or ID..." oninput="handleSearch()">
+          </div>
+          <select id="filter-skill" onchange="handleSearch()">
+            <option value="">All Skills</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="agents-grid" id="catalog-grid">
+        <!-- Spinner -->
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading agent network...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: LIVE TELEMETRY LOGS -->
+    <section id="tab-logs" class="tab-pane">
+      <div class="pane-header">
+        <div class="title-area">
+          <h1>Live Telemetry Console</h1>
+          <p class="subtitle">Real-time inter-agent calls, lifecycle events, and logs running across `sbio.cloud`.</p>
+        </div>
+        <div class="console-actions">
+          <button class="btn btn-secondary btn-small" id="pause-logs-btn" onclick="toggleLogsPause()">
+            <i class="fa-solid fa-pause"></i> Pause Feed
+          </button>
+          <button class="btn btn-secondary btn-small" onclick="clearLogsConsole()">
+            <i class="fa-solid fa-trash-can"></i> Clear
+          </button>
+        </div>
+      </div>
+
+      <div class="terminal-wrapper">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="terminal-title">telemetry-feed@sbio.cloud</div>
+          <div class="terminal-status" id="live-indicator"><span class="pulse-dot"></span> LIVE</div>
+        </div>
+        <div class="terminal-body" id="logs-console">
+          <!-- Terminal logs will print here -->
+          <div class="terminal-line system">[system] Ready for agent telemetry streams. Connect a bot and send logs using Symbiosis CLI.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: DEVELOPER SPACE -->
+    <section id="tab-console" class="tab-pane">
+      
+      <!-- AUTHENTICATION PANELS (SIGNIN / SIGNUP) -->
+      <div id="auth-panel" class="auth-container">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-signin-btn" onclick="toggleAuthTab('signin')">Sign In</button>
+          <button class="auth-tab" id="tab-signup-btn" onclick="toggleAuthTab('signup')">Sign Up</button>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="signin-form" class="auth-form" onsubmit="handleSignIn(event)">
+          <h2>Welcome Back</h2>
+          <p class="form-desc">Manage your AI agents, tokens, and check connection analytics.</p>
+          <div class="form-group">
+            <label for="signin-email">Email Address</label>
+            <input type="email" id="signin-email" required placeholder="developer@sbio.cloud">
+          </div>
+          <div class="form-group">
+            <label for="signin-password">Password</label>
+            <input type="password" id="signin-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
+          <div class="form-error" id="signin-error"></div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signup-form" class="auth-form hidden" onsubmit="handleSignUp(event)">
+          <h2>Create Developer Account</h2>
+          <p class="form-desc">Join the open agentic economy and register your services instantly.</p>
+          <div class="form-group">
+            <label for="signup-name">Full Name</label>
+            <input type="text" id="signup-name" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email Address</label>
+            <input type="email" id="signup-email" required placeholder="developer@sbio.cloud">
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" required placeholder="Min. 8 characters">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+          <div class="form-error" id="signup-error"></div>
+        </form>
+      </div>
+
+      <!-- DEVELOPER LOGGED-IN CONSOLE -->
+      <div id="console-panel" class="console-grid hidden">
+        
+        <!-- LEFT PANEL: MY AGENTS LIST -->
+        <div class="console-card my-agents-card">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-robot"></i> My AI Agents</h2>
+            <button class="btn btn-primary btn-small" onclick="showRegisterForm()">
+              <i class="fa-solid fa-plus"></i> New Agent
+            </button>
+          </div>
+          <div class="my-agents-list" id="my-agents-list">
+            <!-- Dynamic loading -->
+            <p class="empty-state-text">You haven't registered any agents yet.</p>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL: CONTEXTUAL WORKSPACE -->
+        <div class="console-card workspace-card">
+          
+          <!-- DEFAULT EMPTY STATE -->
+          <div id="workspace-empty" class="workspace-placeholder">
+            <i class="fa-solid fa-circle-info placeholder-icon"></i>
+            <h3>No Agent Selected</h3>
+            <p>Select an agent from the left pane or register a new one to view details, test connections, and manage tokens.</p>
+          </div>
+
+          <!-- AGENT DETAILS & TOKEN VIEW -->
+          <div id="workspace-details" class="agent-details-view hidden">
+            <div class="agent-details-header">
+              <div>
+                <h2 id="view-agent-name">Agent Name</h2>
+                <span class="id-badge" id="view-agent-id">namespace/agent</span>
+              </div>
+              <button class="btn btn-danger btn-small" id="delete-agent-btn">
+                <i class="fa-solid fa-trash-can"></i> Delete
+              </button>
+            </div>
+
+            <!-- Token Box -->
+            <div class="token-alert-box">
+              <label>Agent Access Token</label>
+              <p class="token-help">Use this key in your agent headers (`x-agent-token`) to authorize telemetry logs.</p>
+              <div class="token-input-row">
+                <input type="password" id="agent-token-input" readonly value="••••••••••••••••••••••••">
+                <button class="btn btn-secondary" onclick="toggleTokenVisibility()" id="token-reveal-btn">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn btn-secondary" onclick="copyAgentToken()" id="token-copy-btn" title="Copy key">
+                  <i class="fa-solid fa-copy"></i> Copy
+                </button>
+              </div>
+              <div class="token-note hidden" id="new-token-warn">
+                <i class="fa-solid fa-triangle-exclamation"></i> Copy this key now! It will not be shown again for security reasons.
+              </div>
+            </div>
+
+            <!-- Agent Metadata Tabs -->
+            <div class="metadata-grid">
+              <div class="meta-item">
+                <label>Endpoint URL</label>
+                <span id="view-agent-endpoint">-</span>
+              </div>
+              <div class="meta-item">
+                <label>Skills</label>
+                <div class="tags-container" id="view-agent-skills"></div>
+              </div>
+              <div class="meta-item">
+                <label>Tags</label>
+                <div class="tags-container" id="view-agent-tags"></div>
+              </div>
+            </div>
+
+            <div class="schemas-section">
+              <h3>Communication Schemas (JSON Schema)</h3>
+              <div class="schema-tabs-wrapper">
+                <div class="schema-tabs">
+                  <button class="schema-tab active" onclick="switchSchemaTab('in')">Input Schema</button>
+                  <button class="schema-tab" onclick="switchSchemaTab('out')">Output Schema</button>
+                </div>
+                <pre class="schema-code-block"><code id="view-agent-schema">{}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- REGISTER NEW AGENT FORM -->
+          <div id="workspace-register" class="agent-register-form-view hidden">
+            <div class="card-header">
+              <h2>Register New AI Agent</h2>
+              <button class="btn btn-secondary btn-small" onclick="hideRegisterForm()">Cancel</button>
+            </div>
+            
+            <form id="register-agent-form" onsubmit="handleAgentRegistration(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="agent-reg-id">Unique Agent ID *</label>
+                  <input type="text" id="agent-reg-id" required placeholder="e.g. vertex-ai/finance-analyzer">
+                  <span class="field-help">Format: namespace/agent-name (lowercase letters, numbers, dashes)</span>
+                </div>
+                <div class="form-group">
+                  <label for="agent-reg-name">Friendly Name *</label>
+                  <input type="text" id="agent-reg-name" required placeholder="e.g. Core Finance Analyzer">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="agent-reg-endpoint">Agent Endpoint URL *</label>
+                <input type="url" id="agent-reg-endpoint" required placeholder="https://api.domain.com/v1/agent">
+                <span class="field-help">URL where other agents can invoke this agent's API</span>
+              </div>
+
+              <div class="form-group">
+                <label for="agent-reg-desc">Description</label>
+                <textarea id="agent-reg-desc" rows="3" placeholder="Explain what this agent does, its core capabilities, and domain knowledge..."></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="agent-reg-skills">Skills (Comma Separated)</label>
+                  <input type="text" id="agent-reg-skills" placeholder="financial-audit, spreadsheet-parsing, forecasting">
+                </div>
+                <div class="form-group">
+                  <label for="agent-reg-tags">Tags (Comma Separated)</label>
+                  <input type="text" id="agent-reg-tags" placeholder="finance, tools, openai-swarm">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="agent-reg-schema-in">Input JSON Schema (A2A Interface)</label>
+                  <textarea id="agent-reg-schema-in" class="code-textarea" rows="4" placeholder='{ "type": "object", "properties": { ... } }'></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="agent-reg-schema-out">Output JSON Schema (A2A Interface)</label>
+                  <textarea id="agent-reg-schema-out" class="code-textarea" rows="4" placeholder='{ "type": "object", "properties": { ... } }'></textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Create Agent & Generate Access Token</button>
+              <div class="form-error" id="agent-reg-error"></div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="main-footer">
+    <p>© 2026 Symbiosis Framework. Universal discovery mesh layer for the decentralized Agentic Economy. <a href="https://sbio.cloud" target="_blank">sbio.cloud</a></p>
+  </footer>
+
+  <!-- Modal for showing schemas in Catalog -->
+  <div class="modal hidden" id="agent-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-agent-name">Agent Detail</h2>
+        <button class="modal-close" onclick="closeAgentModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="meta-item">
+          <label>Agent ID</label>
+          <p id="modal-agent-id" class="id-badge"></p>
+        </div>
+        <div class="meta-item">
+          <label>Endpoint URL</label>
+          <p><a href="#" id="modal-agent-endpoint" target="_blank"></a></p>
+        </div>
+        <div class="meta-item">
+          <label>Description</label>
+          <p id="modal-agent-desc"></p>
+        </div>
+        <div class="meta-item">
+          <label>Skills & Tags</label>
+          <div class="tags-container" id="modal-agent-tags"></div>
+        </div>
+        <div class="meta-item">
+          <label>Communication Interface (JSON Schema)</label>
+          <div class="schema-tabs">
+            <button class="schema-tab active" id="modal-tab-in" onclick="switchModalSchema('in')">Input Interface</button>
+            <button class="schema-tab" id="modal-tab-out" onclick="switchModalSchema('out')">Output Interface</button>
+          </div>
+          <pre class="schema-code-block"><code id="modal-agent-schema"></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
