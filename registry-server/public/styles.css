@@ -1006,30 +1006,41 @@ select option {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(15px);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease;
 }
 .modal.show {
   opacity: 1;
   pointer-events: all;
 }
 .modal-content {
-  background: #1c1c1e;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: rgba(28, 28, 30, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.05) inset;
   width: 90%;
-  max-width: 540px;
+  max-width: 580px;
   max-height: 85vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  transform: scale(0.95) translateY(15px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  opacity: 0;
+}
+.modal.show .modal-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
 }
 .modal-header {
   padding: 16px 20px;
