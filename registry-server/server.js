@@ -34,12 +34,23 @@ app.post('/api/auth/signup', authLimiter, authController.signup);
 app.post('/api/auth/login', authLimiter, authController.login);
 app.get('/api/auth/me', authenticateUser, authController.getMe);
 
+// Middleware to handle IDs with slashes decoded by Railway/Nginx
+const handleSlashId = (req, res, next) => {
+  if (req.params.namespace) {
+    req.params.id = req.params.namespace + '/' + req.params.id;
+  }
+  next();
+};
+
 // Agent Registry CRUD
 app.get('/api/agents', apiLimiter, agentsController.listAgents);
 app.get('/api/agents/:id', apiLimiter, agentsController.getAgentById);
+app.get('/api/agents/:namespace/:id', apiLimiter, handleSlashId, agentsController.getAgentById);
 app.post('/api/agents', apiLimiter, authenticateUser, agentsController.registerAgent);
 app.delete('/api/agents/:id', apiLimiter, authenticateUser, agentsController.deleteAgent);
+app.delete('/api/agents/:namespace/:id', apiLimiter, authenticateUser, handleSlashId, agentsController.deleteAgent);
 app.post('/api/agents/:id/ping', apiLimiter, agentsController.pingAgent);
+app.post('/api/agents/:namespace/:id/ping', apiLimiter, handleSlashId, agentsController.pingAgent);
 
 // Telemetry & Logs
 app.post('/api/logs', logLimiter, logsController.createLog);
