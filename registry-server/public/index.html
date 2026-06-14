@@ -88,7 +88,6 @@
     <section id="tab-landing" class="tab-pane active">
       <!-- Hero Presentation -->
       <div class="hero-section">
-        <span class="hero-tagline">sbio.cloud</span>
         <h1>Connect and Monitor Your AI Agents.</h1>
         <p class="hero-desc">
           A simple, open registry to manage your bots. Declare JSON schemas, get secure access tokens, and view live telemetry logs in real-time.
@@ -118,40 +117,6 @@
           <div class="showcase-line text-emerald">✔ Generated secure access token: sbio_tkn_8f2d...4a1e</div>
           <div class="showcase-line"><span class="cmd-prompt">$</span> symbiosis log openai/code-reviewer "Triggering codebase audit" --type call</div>
           <div class="showcase-line text-muted">✔ Telemetry packet logged successfully. [status: 201]</div>
-        </div>
-      </div>
-
-      <!-- Live Platform Statistics -->
-      <div class="stats-section">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon neon-blue"><i class="fa-solid fa-robot"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Registered Agents</span>
-              <span class="stat-value" id="stat-agents">-</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon neon-emerald"><i class="fa-solid fa-wave-square"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Active Agents (1h)</span>
-              <span class="stat-value" id="stat-active">-</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon neon-purple"><i class="fa-solid fa-bolt"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Telemetry Logs</span>
-              <span class="stat-value" id="stat-logs">-</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon neon-amber"><i class="fa-solid fa-users"></i></div>
-            <div class="stat-info">
-              <span class="stat-label">Network Developers</span>
-              <span class="stat-value" id="stat-devs">-</span>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -252,6 +217,40 @@
     <!-- SECTION 1: AGENT CATALOG (DASHBOARD) -->
     <section id="tab-catalog" class="tab-pane">
       
+      <!-- Live Platform Statistics -->
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon neon-blue"><i class="fa-solid fa-robot"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Registered Agents</span>
+              <span class="stat-value" id="stat-agents">-</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon neon-emerald"><i class="fa-solid fa-wave-square"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Active Agents (1h)</span>
+              <span class="stat-value" id="stat-active">-</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon neon-purple"><i class="fa-solid fa-bolt"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Telemetry Logs</span>
+              <span class="stat-value" id="stat-logs">-</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon neon-amber"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Network</span>
+              <span class="stat-value" id="stat-devs">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Market Search Controls -->
       <div class="pane-header">
         <div class="title-area">

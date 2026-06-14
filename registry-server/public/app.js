@@ -1015,8 +1015,27 @@ function handleLogFilter() {
     if (text.includes(query)) {
       line.classList.remove('hidden');
     } else {
-      line.classList.add('hidden');
     }
   }
 }
 
+// ---------------- PLATFORM STATISTICS ----------------
+async function loadStats() {
+  try {
+    const res = await fetch(`${API_BASE}/api/stats`);
+    if (!res.ok) return;
+    const data = await res.json();
+    
+    const setStat = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = `~ ${val}`;
+    };
+
+    setStat('stat-agents', data.total_agents || 0);
+    setStat('stat-active', data.active_agents_1h || 0);
+    setStat('stat-logs', data.total_logs || 0);
+    setStat('stat-devs', data.total_developers || 0);
+  } catch (err) {
+    console.warn('Failed to load stats:', err.message);
+  }
+}
