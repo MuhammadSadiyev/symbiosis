@@ -342,9 +342,9 @@ function renderCatalogGrid(agents) {
             ${skillsHtml}
             ${tagsHtml}
           </div>
-          <button class="btn btn-secondary btn-small btn-block">
-            <i class="fa-solid fa-code"></i> View Protocol Schemas
-          </button>
+          <div class="card-action-row">
+            <span class="card-action-link">View Protocol Schemas &nbsp;&rarr;</span>
+          </div>
         </div>
       </div>
     `;
@@ -839,25 +839,27 @@ function switchTab(tabName, updateHistory = true) {
     activeBtn.classList.add('active');
   }
 
-  // Toggle 'Launch App' and main navigation links based on active tab and login status
+  // Global Navigation Logic
   const launchBtn = document.getElementById('nav-launch-btn');
-  const navLinks = document.querySelector('.nav-links');
-  const publicLinks = document.querySelectorAll('.public-link');
-  
-  if (tabName === 'landing' || tabName === 'docs') {
-    if (launchBtn && !token) launchBtn.classList.remove('hidden');
-    if (launchBtn && token) launchBtn.classList.add('hidden');
-    if (navLinks) navLinks.classList.remove('hidden');
-    publicLinks.forEach(el => el.classList.remove('hidden'));
-  } else if (tabName === 'login') {
+  const navLogsBtn = document.getElementById('nav-logs-btn');
+  const navConsoleBtn = document.getElementById('nav-console-btn');
+  const userLoggedIn = document.getElementById('user-logged-in');
+
+  if (token) {
     if (launchBtn) launchBtn.classList.add('hidden');
-    if (navLinks) navLinks.classList.add('hidden');
+    if (userLoggedIn) userLoggedIn.classList.remove('hidden');
+    if (navLogsBtn) navLogsBtn.classList.remove('hidden');
+    if (navConsoleBtn) navConsoleBtn.classList.remove('hidden');
   } else {
-    // Inside Dashboard (catalog, logs, console)
-    if (launchBtn && !token) launchBtn.classList.remove('hidden');
-    if (launchBtn && token) launchBtn.classList.add('hidden');
-    if (navLinks) navLinks.classList.remove('hidden');
-    publicLinks.forEach(el => el.classList.add('hidden')); // Hide Docs and Market in dashboard
+    // Hide Launch App on the Login page itself to reduce clutter
+    if (tabName === 'login') {
+      if (launchBtn) launchBtn.classList.add('hidden');
+    } else {
+      if (launchBtn) launchBtn.classList.remove('hidden');
+    }
+    if (userLoggedIn) userLoggedIn.classList.add('hidden');
+    if (navLogsBtn) navLogsBtn.classList.add('hidden');
+    if (navConsoleBtn) navConsoleBtn.classList.add('hidden');
   }
   
   if (tabName === 'catalog') {

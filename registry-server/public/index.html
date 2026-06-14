@@ -46,17 +46,17 @@
         <span class="domain-badge">sbio.cloud</span>
       </div>
       
-      <nav class="nav-links hidden">
-        <button class="nav-btn public-link" id="nav-catalog-btn" onclick="switchTab('catalog')">
+      <nav class="nav-links">
+        <button class="nav-btn" id="nav-catalog-btn" onclick="switchTab('catalog')">
           Agent Market
         </button>
-        <button class="nav-btn public-link" id="nav-docs-btn" onclick="switchTab('docs')">
+        <button class="nav-btn" id="nav-docs-btn" onclick="switchTab('docs')">
           Docs
         </button>
-        <button class="nav-btn private-link hidden" id="nav-logs-btn" onclick="switchTab('logs')">
+        <button class="nav-btn hidden" id="nav-logs-btn" onclick="switchTab('logs')">
           Live Telemetry
         </button>
-        <button class="nav-btn private-link hidden" id="nav-console-btn" onclick="switchTab('console')">
+        <button class="nav-btn hidden" id="nav-console-btn" onclick="switchTab('console')">
           Developer Space
         </button>
       </nav>
@@ -293,28 +293,28 @@
       <div class="stats-section">
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-icon neon-blue"><i class="fa-solid fa-robot"></i></div>
+            <div class="stat-icon"><i class="fa-solid fa-robot"></i></div>
             <div class="stat-info">
               <span class="stat-label">Registered Agents</span>
               <span class="stat-value" id="stat-agents">-</span>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon neon-emerald"><i class="fa-solid fa-wave-square"></i></div>
+            <div class="stat-icon"><i class="fa-solid fa-wave-square"></i></div>
             <div class="stat-info">
               <span class="stat-label">Active Agents (1h)</span>
               <span class="stat-value" id="stat-active">-</span>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon neon-purple"><i class="fa-solid fa-bolt"></i></div>
+            <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
             <div class="stat-info">
               <span class="stat-label">Telemetry Logs</span>
               <span class="stat-value" id="stat-logs">-</span>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon neon-amber"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
             <div class="stat-info">
               <span class="stat-label">Network</span>
               <span class="stat-value" id="stat-devs">-</span>
