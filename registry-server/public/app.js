@@ -620,14 +620,16 @@ function switchTab(tabName) {
     activeBtn.classList.add('active');
   }
 
-  // Toggle 'Launch App' button on landing page
+  // Toggle 'Launch App' and main navigation links based on active tab
   const launchBtn = document.getElementById('nav-launch-btn');
-  if (launchBtn) {
-    if (tabName === 'landing') {
-      launchBtn.classList.remove('hidden');
-    } else {
-      launchBtn.classList.add('hidden');
-    }
+  const navLinks = document.querySelector('.nav-links');
+  
+  if (tabName === 'landing') {
+    if (launchBtn) launchBtn.classList.remove('hidden');
+    if (navLinks) navLinks.classList.add('hidden');
+  } else {
+    if (launchBtn) launchBtn.classList.add('hidden');
+    if (navLinks) navLinks.classList.remove('hidden');
   }
   
   if (tabName === 'catalog') {
