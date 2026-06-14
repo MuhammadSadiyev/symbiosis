@@ -614,7 +614,21 @@ function switchTab(tabName) {
 
   // Toggle Active Nav Buttons
   document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById(`nav-${tabName}-btn`).classList.add('active');
+  
+  const activeBtn = document.getElementById(`nav-${tabName}-btn`);
+  if (activeBtn) {
+    activeBtn.classList.add('active');
+  }
+
+  // Toggle 'Launch App' button on landing page
+  const launchBtn = document.getElementById('nav-launch-btn');
+  if (launchBtn) {
+    if (tabName === 'landing') {
+      launchBtn.classList.remove('hidden');
+    } else {
+      launchBtn.classList.add('hidden');
+    }
+  }
   
   if (tabName === 'catalog') {
     loadCatalog();
