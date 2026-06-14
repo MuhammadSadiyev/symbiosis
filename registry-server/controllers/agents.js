@@ -20,7 +20,7 @@ const registerAgent = async (req, res) => {
   }
 
   // Validate agent ID format (e.g., must be like namespace/agent-name, no special characters except / and -)
-  const idRegex = /^[a-z0-9-]+/[a-z0-9-]+$/;
+  const idRegex = /^[a-z0-9-]+\/[a-z0-9-]+$/;
   if (!idRegex.test(id)) {
     return res.status(400).json({ 
       error: 'Agent ID must be in format "namespace/agent-name" (lowercase letters, numbers, and dashes only, separated by a single slash).' 
