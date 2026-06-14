@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Universal App Store and Open Registry for AI Agents",
   "private": true,
+  "workspaces": [
+    "registry-server",
+    "cli"
+  ],
   "scripts": {
     "setup": "npm install --prefix registry-server && npm install --prefix cli",
     "start": "node registry-server/server.js",
