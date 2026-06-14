@@ -28,7 +28,23 @@ const ROUTE_MAP = {
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
   setupAutoSlugifier();
+  setupDropdownListener();
 });
+
+// Dropdown Toggle Logic
+function setupDropdownListener() {
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('user-dropdown-menu');
+    const btn = document.getElementById('user-avatar-btn');
+    if (dropdown && btn) {
+      if (btn.contains(e.target)) {
+        dropdown.classList.toggle('show');
+      } else if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    }
+  });
+}
 
 // Toast Notification System
 function showToast(message, type = 'info') {
@@ -121,7 +137,18 @@ function checkAuth() {
       currentUser = data.user;
       if (loggedOutDiv) loggedOutDiv.classList.add('hidden');
       if (loggedInDiv) loggedInDiv.classList.remove('hidden');
-      if (headerUsername) headerUsername.textContent = currentUser.name || currentUser.email;
+      
+      // Populate Avatar Data
+      const nameOrEmail = currentUser.name || currentUser.email;
+      const initial = nameOrEmail.charAt(0).toUpperCase();
+      
+      if (headerUsername) headerUsername.textContent = nameOrEmail;
+      
+      const headerAvatarInitial = document.getElementById('header-avatar-initial');
+      if (headerAvatarInitial) headerAvatarInitial.textContent = initial;
+      
+      const headerEmail = document.getElementById('header-email');
+      if (headerEmail) headerEmail.textContent = currentUser.email;
       
       // Setup dev workspace
       const authPanel = document.getElementById('auth-panel');

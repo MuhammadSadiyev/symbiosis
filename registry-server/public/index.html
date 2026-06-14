@@ -62,13 +62,20 @@
         <button class="btn btn-primary btn-small" id="nav-launch-btn" onclick="launchApp()">
           Launch App
         </button>
-        <div id="user-logged-in" class="hidden">
-          <span class="user-name-badge">
-            <i class="fa-regular fa-user"></i> <span id="header-username">Developer</span>
-          </span>
-          <button class="btn btn-logout" onclick="logout()" title="Logout">
-            <i class="fa-solid fa-power-off"></i>
+        <div id="user-logged-in" class="hidden user-dropdown-container">
+          <button class="avatar-btn" id="user-avatar-btn">
+            <span class="avatar-initial" id="header-avatar-initial">D</span>
           </button>
+          <div class="dropdown-menu" id="user-dropdown-menu">
+            <div class="dropdown-header">
+              <span id="header-username" class="dropdown-username">Developer</span>
+              <span id="header-email" class="dropdown-email">user@sbio.cloud</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item danger" onclick="logout()">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+            </button>
+          </div>
         </div>
       </div>
     </div>
