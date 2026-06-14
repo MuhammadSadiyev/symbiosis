@@ -1,8 +1,9 @@
-// Client Application Logic for Symbiosis (sbio.cloud) Dashboard
-
 const API_BASE = ''; // Served from same origin
 let currentUser = null;
 let token = localStorage.getItem('sbio_auth_token');
+if (token === 'null' || token === 'undefined' || !token) {
+  token = null;
+}
 let myAgents = [];
 let selectedAgent = null;
 let currentSelectedSchemaTab = 'in';
@@ -34,11 +35,17 @@ async function initApp() {
 
 // ---------------- AUTHENTICATION HANDLERS ----------------
 
+function clearSession() {
+  token = null;
+  currentUser = null;
+  localStorage.removeItem('sbio_auth_token');
+  checkAuth();
+}
+
 function checkAuth() {
   const loggedOutDiv = document.getElementById('user-logged-out');
   const loggedInDiv = document.getElementById('user-logged-in');
   const headerUsername = document.getElementById('header-username');
-  const navLinks = document.querySelector('.nav-links');
 
   if (token) {
     // Attempt to verify token
@@ -61,7 +68,8 @@ function checkAuth() {
       if (authPanel) authPanel.classList.add('hidden');
       if (consolePanel) consolePanel.classList.remove('hidden');
       
-      if (navLinks) navLinks.classList.remove('hidden');
+      // Show private links when logged in
+      document.querySelectorAll('.private-link').forEach(el => el.classList.remove('hidden'));
       
       loadMyAgents();
 
@@ -73,7 +81,13 @@ function checkAuth() {
     })
     .catch(err => {
       console.warn('Auth check failed:', err.message);
-      logout();
+      clearSession();
+      
+      // Redirect to login if on private view
+      const activePane = document.querySelector('.tab-pane.active');
+      if (activePane && (activePane.id === 'tab-logs' || activePane.id === 'tab-console')) {
+        switchTab('login');
+      }
     });
   } else {
     if (loggedOutDiv) loggedOutDiv.classList.remove('hidden');
@@ -84,7 +98,8 @@ function checkAuth() {
     if (authPanel) authPanel.classList.remove('hidden');
     if (consolePanel) consolePanel.classList.add('hidden');
     
-    if (navLinks) navLinks.classList.add('hidden');
+    // Hide private links when logged out
+    document.querySelectorAll('.private-link').forEach(el => el.classList.add('hidden'));
   }
 }
 
@@ -159,10 +174,7 @@ async function handleSignUp(e) {
 }
 
 function logout() {
-  token = null;
-  currentUser = null;
-  localStorage.removeItem('sbio_auth_token');
-  checkAuth();
+  clearSession();
   switchTab('landing');
 }
 
@@ -626,9 +638,17 @@ async function handleDeleteAgent(agentId) {
 // ---------------- TAB CONTROL ----------------
 
 function switchTab(tabName) {
+  // Guard private tabs (Live Telemetry and Developer Workspace require login)
+  const privateTabs = ['logs', 'console'];
+  if (privateTabs.includes(tabName) && !token) {
+    switchTab('login');
+    return;
+  }
+
   // Toggle Active Panes
   document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
-  document.getElementById(`tab-${tabName}`).classList.add('active');
+  const targetPane = document.getElementById(`tab-${tabName}`);
+  if (targetPane) targetPane.classList.add('active');
 
   // Toggle Active Nav Buttons
   document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
@@ -638,15 +658,23 @@ function switchTab(tabName) {
     activeBtn.classList.add('active');
   }
 
-  // Toggle 'Launch App' and main navigation links based on active tab
+  // Toggle 'Launch App' and main navigation links based on active tab and login status
   const launchBtn = document.getElementById('nav-launch-btn');
   const navLinks = document.querySelector('.nav-links');
   
-  if (tabName === 'landing') {
-    if (launchBtn) launchBtn.classList.remove('hidden');
+  if (tabName === 'landing' || tabName === 'login') {
+    if (launchBtn && !token) launchBtn.classList.remove('hidden');
+    if (launchBtn && token) launchBtn.classList.add('hidden');
     if (navLinks) navLinks.classList.add('hidden');
+    
+    // Hide Launch App on the Login page itself to reduce clutter
+    if (tabName === 'login' && launchBtn) {
+      launchBtn.classList.add('hidden');
+    }
   } else {
-    if (launchBtn) launchBtn.classList.add('hidden');
+    // Inside App tabs: show Launch App button only if user is a guest (not logged in)
+    if (launchBtn && !token) launchBtn.classList.remove('hidden');
+    if (launchBtn && token) launchBtn.classList.add('hidden');
     if (navLinks) navLinks.classList.remove('hidden');
   }
   
@@ -660,7 +688,7 @@ function launchApp() {
   if (token) {
     switchTab('catalog'); // Take to Agent Market dashboard
   } else {
-    switchTab('console'); // Redirect to Sign In / Sign Up portal
+    switchTab('login'); // Redirect to dedicated Login tab
   }
 }
 
