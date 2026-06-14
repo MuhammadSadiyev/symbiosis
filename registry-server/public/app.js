@@ -351,25 +351,50 @@ function renderCatalogGrid(agents) {
 }
 
 function populateSkillFilter(agents) {
-  const skillSelect = document.getElementById('filter-skill');
+  const optionsContainer = document.getElementById('skill-dropdown-options');
+  if (!optionsContainer) return;
+  
   const allSkills = new Set();
   agents.forEach(agent => {
     if (agent.skills) agent.skills.forEach(s => allSkills.add(s));
   });
 
-  // Keep first option "All Skills"
-  skillSelect.innerHTML = '<option value="">All Skills</option>';
+  let html = `<div class="custom-option" onclick="selectSkillFilter('', 'All Skills')">All Skills</div>`;
   allSkills.forEach(skill => {
-    const opt = document.createElement('option');
-    opt.value = skill;
-    opt.textContent = skill;
-    skillSelect.appendChild(opt);
+    html += `<div class="custom-option" onclick="selectSkillFilter('${skill}', '${skill}')">${skill}</div>`;
   });
+  
+  optionsContainer.innerHTML = html;
 }
+
+function toggleSkillDropdown() {
+  const menu = document.getElementById('skill-dropdown-options');
+  if (menu) menu.classList.toggle('show');
+}
+
+function selectSkillFilter(value, text) {
+  const textEl = document.getElementById('skill-dropdown-text');
+  if (textEl) {
+    textEl.textContent = text;
+    textEl.dataset.value = value;
+  }
+  document.getElementById('skill-dropdown-options').classList.remove('show');
+  handleSearch();
+}
+
+// Close dropdown if clicked outside
+document.addEventListener('click', (e) => {
+  const container = document.getElementById('skill-dropdown-container');
+  const menu = document.getElementById('skill-dropdown-options');
+  if (container && menu && !container.contains(e.target)) {
+    menu.classList.remove('show');
+  }
+});
 
 async function handleSearch() {
   const q = document.getElementById('catalog-search').value;
-  const skill = document.getElementById('filter-skill').value;
+  const skillEl = document.getElementById('skill-dropdown-text');
+  const skill = skillEl ? skillEl.dataset.value : '';
   const grid = document.getElementById('catalog-grid');
   
   // Show spinner
@@ -1028,7 +1053,7 @@ async function loadStats() {
     
     const setStat = (id, val) => {
       const el = document.getElementById(id);
-      if (el) el.textContent = `~ ${val}`;
+      if (el) el.textContent = val;
     };
 
     setStat('stat-agents', data.total_agents || 0);

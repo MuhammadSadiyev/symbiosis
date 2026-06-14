@@ -262,9 +262,17 @@
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
             <input type="text" id="catalog-search" placeholder="Search by name, skill, or ID..." oninput="handleSearch()">
           </div>
-          <select id="filter-skill" onchange="handleSearch()">
-            <option value="">All Skills</option>
-          </select>
+          
+          <div class="custom-dropdown-container" id="skill-dropdown-container">
+            <div class="custom-dropdown-selected" onclick="toggleSkillDropdown()">
+              <span id="skill-dropdown-text" data-value="">All Skills</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="custom-dropdown-menu" id="skill-dropdown-options">
+              <!-- JS Populated -->
+            </div>
+          </div>
+
         </div>
       </div>
 
