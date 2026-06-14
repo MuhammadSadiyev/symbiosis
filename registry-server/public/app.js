@@ -851,6 +851,10 @@ function switchTab(tabName, updateHistory = true) {
   if (isDashboard) {
     publicNavs.forEach(el => el.classList.add('hidden'));
     dashboardNavs.forEach(el => el.classList.remove('hidden'));
+  } else if (tabName === 'login') {
+    // Hide ALL nav links for a focused login experience
+    publicNavs.forEach(el => el.classList.add('hidden'));
+    dashboardNavs.forEach(el => el.classList.add('hidden'));
   } else {
     publicNavs.forEach(el => el.classList.remove('hidden'));
     dashboardNavs.forEach(el => el.classList.add('hidden'));
@@ -913,7 +917,7 @@ function switchDocs(sectionId) {
 // Handles the smart redirection when Launch App is clicked
 function launchApp() {
   if (token) {
-    switchTab('catalog'); // Take to Agent Market dashboard
+    switchTab('console'); // Take directly to the Dashboard / Developer Space
   } else {
     switchTab('login'); // Redirect to dedicated Login tab
   }
