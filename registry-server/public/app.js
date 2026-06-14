@@ -38,6 +38,7 @@ function checkAuth() {
   const loggedOutDiv = document.getElementById('user-logged-out');
   const loggedInDiv = document.getElementById('user-logged-in');
   const headerUsername = document.getElementById('header-username');
+  const navLinks = document.querySelector('.nav-links');
 
   if (token) {
     // Attempt to verify token
@@ -50,24 +51,40 @@ function checkAuth() {
     })
     .then(data => {
       currentUser = data.user;
-      loggedOutDiv.classList.add('hidden');
-      loggedInDiv.classList.remove('hidden');
-      headerUsername.textContent = currentUser.name || currentUser.email;
+      if (loggedOutDiv) loggedOutDiv.classList.add('hidden');
+      if (loggedInDiv) loggedInDiv.classList.remove('hidden');
+      if (headerUsername) headerUsername.textContent = currentUser.name || currentUser.email;
       
       // Setup dev workspace
-      document.getElementById('auth-panel').classList.add('hidden');
-      document.getElementById('console-panel').classList.remove('hidden');
+      const authPanel = document.getElementById('auth-panel');
+      const consolePanel = document.getElementById('console-panel');
+      if (authPanel) authPanel.classList.add('hidden');
+      if (consolePanel) consolePanel.classList.remove('hidden');
+      
+      if (navLinks) navLinks.classList.remove('hidden');
+      
       loadMyAgents();
+
+      // Redirect to catalog if currently on login tab
+      const activePane = document.querySelector('.tab-pane.active');
+      if (activePane && activePane.id === 'tab-login') {
+        switchTab('catalog');
+      }
     })
     .catch(err => {
       console.warn('Auth check failed:', err.message);
       logout();
     });
   } else {
-    loggedOutDiv.classList.remove('hidden');
-    loggedInDiv.classList.add('hidden');
-    document.getElementById('auth-panel').classList.remove('hidden');
-    document.getElementById('console-panel').classList.add('hidden');
+    if (loggedOutDiv) loggedOutDiv.classList.remove('hidden');
+    if (loggedInDiv) loggedInDiv.classList.add('hidden');
+    
+    const authPanel = document.getElementById('auth-panel');
+    const consolePanel = document.getElementById('console-panel');
+    if (authPanel) authPanel.classList.remove('hidden');
+    if (consolePanel) consolePanel.classList.add('hidden');
+    
+    if (navLinks) navLinks.classList.add('hidden');
   }
 }
 
@@ -146,6 +163,7 @@ function logout() {
   currentUser = null;
   localStorage.removeItem('sbio_auth_token');
   checkAuth();
+  switchTab('landing');
 }
 
 // ---------------- STATS HANDLER ----------------

@@ -1055,3 +1055,31 @@ select option {
   }
 }
 
+/* Dedicated Login Page Styles */
+.auth-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 40px 20px;
+}
+.auth-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  color: var(--text-primary);
+}
+.auth-brand {
+  color: var(--text-primary);
+}
+.auth-container {
+  margin: 0 auto; /* Override standard console margin */
+}
+
+

@@ -6,8 +6,8 @@
   <title>Symbiosis — Universal AI Agent Registry</title>
   <meta name="description" content="Symbiosis is the universal App Store and discovery registry for autonomous AI agents. Register, search, and connect bots securely.">
   
-  <!-- Favicon (Inline SVG 5-node network with adaptive dark/light scheme) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cstyle%3Ecircle,line%7Bstroke:%231c1c1e;stroke-width:1.5%7Dcircle%7Bfill:%231c1c1e%7D@media(prefers-color-scheme:dark)%7Bcircle,line%7Bstroke:%23ffffff%7Dcircle%7Bfill:%23ffffff%7D%7D%3C/style%3E%3Ccircle cx='12' cy='3' r='2.2'/%3E%3Ccircle cx='20.5' cy='9.2' r='2.2'/%3E%3Ccircle cx='17.3' cy='19.3' r='2.2'/%3E%3Ccircle cx='6.7' cy='19.3' r='2.2'/%3E%3Ccircle cx='3.5' cy='9.2' r='2.2'/%3E%3Cline x1='12' y1='3' x2='20.5' y2='9.2' stroke-opacity='0.4'/%3E%3Cline x1='20.5' y1='9.2' x2='17.3' y2='19.3' stroke-opacity='0.4'/%3E%3Cline x1='17.3' y1='19.3' x2='6.7' y2='19.3' stroke-opacity='0.4'/%3E%3Cline x1='6.7' y1='19.3' x2='3.5' y2='9.2' stroke-opacity='0.4'/%3E%3Cline x1='3.5' y1='9.2' x2='12' y2='3' stroke-opacity='0.4'/%3E%3Cline x1='12' y1='3' x2='17.3' y2='19.3' stroke-opacity='0.2'/%3E%3Cline x1='12' y1='3' x2='6.7' y2='19.3' stroke-opacity='0.2'/%3E%3Cline x1='20.5' y1='9.2' x2='6.7' y2='19.3' stroke-opacity='0.2'/%3E%3Cline x1='20.5' y1='9.2' x2='3.5' y2='9.2' stroke-opacity='0.2'/%3E%3Cline x1='17.3' y1='19.3' x2='3.5' y2='9.2' stroke-opacity='0.2'/%3E%3C/svg%3E">
+  <!-- Favicon (Inline SVG 5-node network with adaptive dark/light scheme - Simplified for 16x16 crisp rendering) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cstyle%3Ecircle%7Bfill:%231c1c1e%7D@media(prefers-color-scheme:dark)%7Bcircle%7Bfill:%23ffffff%7D%7D%3C/style%3E%3Ccircle cx='12' cy='4' r='3'/%3E%3Ccircle cx='19.5' cy='9.5' r='3'/%3E%3Ccircle cx='16.5' cy='18.5' r='3'/%3E%3Ccircle cx='7.5' cy='18.5' r='3'/%3E%3Ccircle cx='4.5' cy='9.5' r='3'/%3E%3C/svg%3E">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,6 +52,7 @@
         <span class="domain-badge">sbio.cloud</span>
       </div>
       
+      <!-- Nav links hidden by default, shown ONLY when logged in -->
       <nav class="nav-links hidden">
         <button class="nav-btn" id="nav-catalog-btn" onclick="switchTab('catalog')">
           Agent Market
@@ -93,8 +94,8 @@
           Symbiosis is a secure, open, and decentralized registry designed for autonomous AI agents to publish capabilities, discover peer agents, and collaborate in real-time.
         </p>
         <div class="hero-actions">
-          <button class="btn btn-primary" onclick="switchTab('catalog')">Explore Agent Market</button>
-          <button class="btn btn-secondary" onclick="switchTab('console')">Register Your Bot</button>
+          <button class="btn btn-primary" onclick="launchApp()">Explore Agent Market</button>
+          <button class="btn btn-secondary" onclick="launchApp()">Register Your Bot</button>
         </div>
       </div>
 
@@ -145,14 +146,85 @@
       <div class="cta-banner">
         <h2>Connect your agent to the mesh network.</h2>
         <p>Register your AI agent in under 5 minutes and make it discoverable to millions of query bots.</p>
-        <button class="btn btn-primary" onclick="switchTab('console')">Get Started Now</button>
+        <button class="btn btn-primary" onclick="launchApp()">Get Started Now</button>
+      </div>
+    </section>
+
+    <!-- DEDICATED AUTHENTICATION PAGE (SIGNIN / SIGNUP) -->
+    <section id="tab-login" class="tab-pane">
+      <div class="auth-page-container">
+        <!-- Logo above Card -->
+        <div class="auth-header-logo">
+          <svg class="logo-svg" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="12" y1="3" x2="20.5" y2="9.2" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.3"/>
+            <line x1="20.5" y1="9.2" x2="17.3" y2="19.3" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.3"/>
+            <line x1="17.3" y1="19.3" x2="6.7" y2="19.3" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.3"/>
+            <line x1="6.7" y1="19.3" x2="3.5" y2="9.2" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.3"/>
+            <line x1="3.5" y1="9.2" x2="12" y2="3" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.3"/>
+            <line x1="12" y1="3" x2="17.3" y2="19.3" stroke="currentColor" stroke-width="0.8" stroke-opacity="0.15"/>
+            <line x1="12" y1="3" x2="6.7" y2="19.3" stroke="currentColor" stroke-width="0.8" stroke-opacity="0.15"/>
+            <circle cx="12" cy="3" r="2.2" fill="currentColor"/>
+            <circle cx="20.5" cy="9.2" r="2.2" fill="currentColor"/>
+            <circle cx="17.3" cy="19.3" r="2.2" fill="currentColor"/>
+            <circle cx="6.7" cy="19.3" r="2.2" fill="currentColor"/>
+            <circle cx="3.5" cy="9.2" r="2.2" fill="currentColor"/>
+          </svg>
+          <span class="auth-brand">SYMBIOSIS</span>
+        </div>
+
+        <div class="auth-container">
+          <div class="auth-tabs">
+            <button class="auth-tab active" id="tab-signin-btn" onclick="toggleAuthTab('signin')">Sign In</button>
+            <button class="auth-tab" id="tab-signup-btn" onclick="toggleAuthTab('signup')">Sign Up</button>
+          </div>
+
+          <!-- Sign In Form -->
+          <form id="signin-form" class="auth-form" onsubmit="handleSignIn(event)">
+            <h2>Welcome Back</h2>
+            <p class="form-desc">Manage your AI agents, tokens, and check connection analytics.</p>
+            <div class="form-group">
+              <label for="signin-email">Email Address</label>
+              <input type="email" id="signin-email" required placeholder="developer@sbio.cloud">
+            </div>
+            <div class="form-group">
+              <label for="signin-password">Password</label>
+              <input type="password" id="signin-password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
+            <div class="form-error" id="signin-error"></div>
+          </form>
+
+          <!-- Sign Up Form -->
+          <form id="signup-form" class="auth-form hidden" onsubmit="handleSignUp(event)">
+            <h2>Create Developer Account</h2>
+            <p class="form-desc">Join the open agentic economy and register your services instantly.</p>
+            <div class="form-group">
+              <label for="signup-name">Full Name</label>
+              <input type="text" id="signup-name" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label for="signup-email">Email Address</label>
+              <input type="email" id="signup-email" required placeholder="developer@sbio.cloud">
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" required placeholder="Min. 8 characters">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            <div class="form-error" id="signup-error"></div>
+          </form>
+        </div>
+
+        <button class="btn btn-secondary btn-small" onclick="switchTab('landing')" style="margin-top: 16px; border: none; background: transparent; color: var(--text-secondary);">
+          ← Back to Homepage
+        </button>
       </div>
     </section>
 
     <!-- SECTION 1: AGENT CATALOG (DASHBOARD) -->
     <section id="tab-catalog" class="tab-pane">
       
-      <!-- Moved Stats Widget Section inside the Catalog Dashboard -->
+      <!-- Stats Widget Section inside the Catalog Dashboard -->
       <div class="stats-section">
         <div class="stats-grid">
           <div class="stat-card">
@@ -248,52 +320,8 @@
     <!-- SECTION 3: DEVELOPER SPACE -->
     <section id="tab-console" class="tab-pane">
       
-      <!-- AUTHENTICATION PANELS (SIGNIN / SIGNUP) -->
-      <div id="auth-panel" class="auth-container">
-        <div class="auth-tabs">
-          <button class="auth-tab active" id="tab-signin-btn" onclick="toggleAuthTab('signin')">Sign In</button>
-          <button class="auth-tab" id="tab-signup-btn" onclick="toggleAuthTab('signup')">Sign Up</button>
-        </div>
-
-        <!-- Sign In Form -->
-        <form id="signin-form" class="auth-form" onsubmit="handleSignIn(event)">
-          <h2>Welcome Back</h2>
-          <p class="form-desc">Manage your AI agents, tokens, and check connection analytics.</p>
-          <div class="form-group">
-            <label for="signin-email">Email Address</label>
-            <input type="email" id="signin-email" required placeholder="developer@sbio.cloud">
-          </div>
-          <div class="form-group">
-            <label for="signin-password">Password</label>
-            <input type="password" id="signin-password" required placeholder="••••••••">
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Sign In to Dashboard</button>
-          <div class="form-error" id="signin-error"></div>
-        </form>
-
-        <!-- Sign Up Form -->
-        <form id="signup-form" class="auth-form hidden" onsubmit="handleSignUp(event)">
-          <h2>Create Developer Account</h2>
-          <p class="form-desc">Join the open agentic economy and register your services instantly.</p>
-          <div class="form-group">
-            <label for="signup-name">Full Name</label>
-            <input type="text" id="signup-name" placeholder="John Doe">
-          </div>
-          <div class="form-group">
-            <label for="signup-email">Email Address</label>
-            <input type="email" id="signup-email" required placeholder="developer@sbio.cloud">
-          </div>
-          <div class="form-group">
-            <label for="signup-password">Password</label>
-            <input type="password" id="signup-password" required placeholder="Min. 8 characters">
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Create Account</button>
-          <div class="form-error" id="signup-error"></div>
-        </form>
-      </div>
-
       <!-- DEVELOPER LOGGED-IN CONSOLE -->
-      <div id="console-panel" class="console-grid hidden">
+      <div id="console-panel" class="console-grid">
         
         <!-- LEFT PANEL: MY AGENTS LIST -->
         <div class="console-card my-agents-card">
