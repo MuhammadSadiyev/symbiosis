@@ -16,6 +16,14 @@ let logsInterval = null;
 let statsInterval = null;
 let knownLogIds = new Set();
 
+const ROUTE_MAP = {
+  '/': 'landing',
+  '/login': 'login',
+  '/market': 'catalog',
+  '/telemetry': 'logs',
+  '/console': 'console'
+};
+
 // Initial Setup
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
@@ -25,6 +33,18 @@ async function initApp() {
   checkAuth();
   loadStats();
   loadCatalog();
+  
+  // Resolve initial tab based on browser URL
+  const currentPath = window.location.pathname;
+  const initialTab = ROUTE_MAP[currentPath] || 'landing';
+  switchTab(initialTab, false);
+
+  // Handle browser Back/Forward navigation
+  window.addEventListener('popstate', () => {
+    const path = window.location.pathname;
+    const tabName = ROUTE_MAP[path] || 'landing';
+    switchTab(tabName, false);
+  });
   
   // Set up polling
   statsInterval = setInterval(loadStats, 5000);
@@ -637,11 +657,11 @@ async function handleDeleteAgent(agentId) {
 
 // ---------------- TAB CONTROL ----------------
 
-function switchTab(tabName) {
+function switchTab(tabName, updateHistory = true) {
   // Guard private tabs (Live Telemetry and Developer Workspace require login)
   const privateTabs = ['logs', 'console'];
   if (privateTabs.includes(tabName) && !token) {
-    switchTab('login');
+    switchTab('login', updateHistory);
     return;
   }
 
@@ -680,6 +700,12 @@ function switchTab(tabName) {
   
   if (tabName === 'catalog') {
     loadCatalog();
+  }
+
+  // Update browser URL history state
+  if (updateHistory) {
+    const path = Object.keys(ROUTE_MAP).find(key => ROUTE_MAP[key] === tabName) || '/';
+    window.history.pushState(null, '', path);
   }
 }
 
