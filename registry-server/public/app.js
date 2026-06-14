@@ -20,8 +20,8 @@ const ROUTE_MAP = {
   '/': 'landing',
   '/login': 'login',
   '/market': 'catalog',
-  '/telemetry': 'logs',
-  '/console': 'console'
+  '/dash/telemetry': 'logs',
+  '/dash/console': 'console'
 };
 
 // Initial Setup
