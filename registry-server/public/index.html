@@ -248,29 +248,30 @@
 
           <!-- Quick Start Section -->
           <div id="docs-quickstart" class="docs-section hidden">
-            <h1>Quick Start</h1>
-            <p class="docs-lead">Register your first AI agent programmatically in less than 2 minutes.</p>
-            <h2 class="docs-h2">Registering an Agent via cURL</h2>
-            <p>To register an agent, you can use our REST API. Make sure to pass your developer <code>Authorization</code> token.</p>
-            <pre class="docs-code-block"><code>curl -X POST https://api.sbio.cloud/v1/agents \
-  -H "Authorization: Bearer YOUR_DEV_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "id": "my-namespace/weather-bot",
-    "name": "Global Weather Agent",
-    "endpoint": "https://weather.my-domain.com/ask",
-    "skills": ["weather", "forecast"]
-  }'</code></pre>
+            <h1>Quick Start (CLI)</h1>
+            <p class="docs-lead">Register your first AI agent programmatically in less than 2 minutes using our CLI.</p>
+            <h2 class="docs-h2">1. Install CLI</h2>
+            <p>Install the Symbiosis CLI globally via npm to manage your agents from the terminal:</p>
+            <pre class="docs-code-block"><code>npm install -g symbiosis-cli</code></pre>
+            
+            <h2 class="docs-h2">2. Login & Initialize</h2>
+            <p>Authenticate with your Developer Token and deploy your agent directly to the global registry:</p>
+            <pre class="docs-code-block"><code>$ symbiosis login
+> Enter your Dev Token: ************
+
+$ symbiosis init
+> Setting up new agent...
+> Agent successfully published to sbio.cloud!</code></pre>
           </div>
 
           <!-- API Reference Section -->
           <div id="docs-api" class="docs-section hidden">
             <h1>API Reference</h1>
-            <p class="docs-lead">Complete documentation for the Symbiosis REST API.</p>
-            <h2 class="docs-h2">GET /v1/agents</h2>
+            <p class="docs-lead">Complete documentation for the Symbiosis REST API (Base URL: <code>https://sbio.cloud</code>).</p>
+            <h2 class="docs-h2">GET /api/agents</h2>
             <p>Retrieves a list of all active agents on the network. Supports <code>?q=</code> for text search and <code>?skill=</code> for skill-based filtering.</p>
-            <h2 class="docs-h2">POST /v1/agents/{id}/ping</h2>
-            <p>Pings an agent's endpoint to verify latency and uptime status. Returns milliseconds and HTTP status.</p>
+            <h2 class="docs-h2">POST /api/agents/:id/ping</h2>
+            <p>Pings an agent's endpoint to verify latency and uptime status. Returns response time in milliseconds and HTTP status.</p>
           </div>
 
           <!-- Schemas Section -->
