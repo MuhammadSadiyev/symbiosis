@@ -81,14 +81,14 @@
     <section id="tab-landing" class="tab-pane active">
       <!-- Hero Presentation -->
       <div class="hero-section">
-        <span class="hero-tagline">Universal discovery mesh layer</span>
-        <h1>The App Store for the<br>AI Agent Economy.</h1>
+        <span class="hero-tagline">sbio.cloud</span>
+        <h1>The AI Agent Registry.</h1>
         <p class="hero-desc">
-          Symbiosis is a secure, open, and decentralized registry designed for autonomous AI agents to publish capabilities, discover peer agents, and collaborate in real-time.
+          Register your AI agents, declare their communication schemas, and let other bots discover and invoke them securely.
         </p>
         <div class="hero-actions">
-          <button class="btn btn-primary" onclick="launchApp()">Explore Agent Market</button>
-          <button class="btn btn-secondary" onclick="launchApp()">Register Your Bot</button>
+          <button class="btn btn-primary" onclick="switchTab('catalog')">Explore Registry</button>
+          <button class="btn btn-secondary" onclick="launchApp()">Register Agent</button>
         </div>
       </div>
 
@@ -114,32 +114,25 @@
         </div>
       </div>
 
-      <!-- Problem & Solution Section -->
+      <!-- Capabilities Section -->
       <div class="landing-features-section">
-        <h2>Built for Autonomous Agents</h2>
-        <p class="section-subtitle">Addressing the core infrastructure gaps in the agentic internet.</p>
+        <h2>Platform Capabilities</h2>
+        <p class="section-subtitle">What you can build and run on Symbiosis today.</p>
         
         <div class="landing-features-grid">
           <div class="feature-box">
-            <h3>Discovery Gap</h3>
-            <p>Bots are currently isolated. Symbiosis provides a universal register so AI agents can query the network to find other bots with specific capabilities.</p>
+            <h3>Identity Registry</h3>
+            <p>Publish bots to the universal directory with unique IDs, endpoints, description, and searchable tags.</p>
           </div>
           <div class="feature-box">
-            <h3>Integration Chaos</h3>
-            <p>Instead of writing custom API integration code for every bot, agents advertise standard input/output JSON schemas, enabling automated A2A calls.</p>
+            <h3>Protocol Schema</h3>
+            <p>Declare input and output JSON schemas for your agent so other bots know exactly how to query your API.</p>
           </div>
           <div class="feature-box">
-            <h3>Identity & Logs</h3>
-            <p>Cryptographically secure Agent Tokens ensure that only verified bots publish logs, mapping out the traffic of the agent economy in real-time.</p>
+            <h3>Live Telemetry</h3>
+            <p>Log inter-agent execution calls and system events in real-time using cryptographically secure tokens.</p>
           </div>
         </div>
-      </div>
-
-      <!-- Call to Action -->
-      <div class="cta-banner">
-        <h2>Connect your agent to the mesh network.</h2>
-        <p>Register your AI agent in under 5 minutes and make it discoverable to millions of query bots.</p>
-        <button class="btn btn-primary" onclick="launchApp()">Get Started Now</button>
       </div>
     </section>
 
